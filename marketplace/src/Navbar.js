@@ -12,6 +12,7 @@ function Navbar({ user }) {
   const [responseMarket, setResponseMarket] = useState(user);
   const [showComponentInbox, setShowComponentInbox] = useState(false);
   const [responseInbox, setResponseInbox] = useState(null);
+  
   const goMarket = () => {
     setResponseMarket(user);
     setShowComponentMarket(true);
@@ -59,7 +60,7 @@ function Navbar({ user }) {
       </nav>
       {showComponentMarket && responseMarket && (
         <Suspense fallback={<div>Loading...</div>}>
-          <Market user={responseMarket} />
+          <Market user={responseMarket} setShowComponentMarket={setShowComponentMarket}/>
         </Suspense>
       )}
       {showComponentProfile && responseProfile && (

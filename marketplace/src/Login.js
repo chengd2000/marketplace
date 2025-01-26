@@ -1,5 +1,6 @@
 import React, { useState, Suspense } from 'react';
 import './App.css';
+
 const Navbar = React.lazy(() => import('./Navbar'));
 
 function Login() {
