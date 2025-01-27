@@ -7,13 +7,15 @@ function SignIn() {
   const [responseNavbar, setResponseNavbar] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
   const login = () => {
     const user = {
       username: username,
       password: password,
-      email: "aa@gmail.com",
-      phone: "0974445876"
+      email: email,
+      phone: phone
     };
     setResponseNavbar(user);
     setShowComponentNavbar(true);
@@ -32,12 +34,20 @@ function SignIn() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <input className="form-control" type="email" placeholder="email" />
+            <input 
+              className="form-control" 
+              type="email" 
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <input 
               className="form-control" 
               type="tel" 
-              pattern="[0-9]{3}-[0-9]{7}" 
-              placeholder="phone number" 
+              pattern="\d{3}-\d{7}" 
+              placeholder="phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
             <input 
               className="form-control" 

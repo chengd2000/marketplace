@@ -1,18 +1,18 @@
 import React from 'react';
 
-function Connect({ user, user2, product, setShowComponentConnect }) {
+function Chat({ user, user2, setShowComponentChat }) {
   const close = () =>{
-    setShowComponentConnect(false);
+    setShowComponentChat(false);
   };
   return (
-    <div style={{ backgroundColor:"gray"}}>
+    <div style={{ backgroundColor:"lightgray"}}>
 <button class="btn btn-info close" onClick={close}>X</button>
     
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh", flexDirection: "column" }}>
     
-  <h2> {user.username} Welcome to Connect about {product.name}</h2>
+  <h2> {user.username}, your chat with {user2.username}</h2>
   <div style={{ width: "50%", textAlign: "center" }}>
-    <h3>Send message to {user2.username} about {product.name}</h3>
+    <p>your previous messages...</p>
     <textarea 
       className="form-control" 
       placeholder="Write here your message"
@@ -26,4 +26,4 @@ function Connect({ user, user2, product, setShowComponentConnect }) {
   );
 }
 
-export default Connect; 
+export default Chat; 

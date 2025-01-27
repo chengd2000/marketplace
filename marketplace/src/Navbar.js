@@ -4,8 +4,7 @@ const Market = React.lazy(() => import('./Market'));
 
 const Profile = React.lazy(() => import('./Profile'));
 const Inbox = React.lazy(() => import('./Inbox'));
-
-function Navbar({ user }) {
+function Navbar({ user, setShowComponentNavbar}) {
   const [showComponentProfile, setShowComponentProfile] = useState(false);
   const [responseProfile, setResponseProfile] = useState(null);
   const [showComponentMarket, setShowComponentMarket] = useState(true);
@@ -33,6 +32,7 @@ function Navbar({ user }) {
     setShowComponentInbox(true);
   };
 
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-dark">
@@ -54,6 +54,7 @@ function Navbar({ user }) {
                   Inbox
                 </button>
               </li>
+    
             </ul>
           </div>
         </div>

@@ -1,15 +1,15 @@
-import React, { useState, Suspense } from 'react';
+import React from 'react';
 import './App.css';
 
-const App = React.lazy(() => import('./App'));
 
 function Profile({ user }) {
-    const [showComponentApp, setShowComponentApp] = useState(false);
-    const logout = () => {
-        setShowComponentApp(true); 
-      };
+   const logout = () =>{
+    window.location.reload();
+
+   }
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", flexDirection: "column" }}>
+      <br/>
       <h3>Hello, {user.username}!</h3>
 
       <br/>
@@ -44,15 +44,8 @@ function Profile({ user }) {
       <br/>
       <br/>
       <br/>
-
-      <button onClick={logout} className="btn btn-info">Logout</button>
-         <div>
-                {showComponentApp && (
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <App/>
-                  </Suspense>
-                )}
-              </div>
+      <button class="btn btn-danger" onClick={logout}>Logout</button>
+      
     </div>
   );
 }

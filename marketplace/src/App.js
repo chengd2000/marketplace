@@ -25,6 +25,7 @@ function App() {
     <div className="App">
       {showButtons && (
         <>
+        <h1>welcome to our app!</h1>
           <button onClick={openLogin} className="btn btn-info">Login</button>
           <button onClick={openSignIn} className="btn btn-info">SignIn</button>
         </>
