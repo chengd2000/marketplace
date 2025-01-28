@@ -1,9 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './App.css';
+import { addMessage } from './FirebaseServer';
 
 function Connect({ user, user2, product, setShowComponentConnect }) {
+    const [content, setContent] = useState('');
+    const [loading, setLoading] = useState(false);
+
   const close = () =>{
     setShowComponentConnect(false);
   };
+
+  const validateInputs = () => {
+          if (!content) {
+            alert("field is required.");
+            return false;
+          }
+          return true;
+        };
+  
+      const createMessage = async () => {
+          if (!validateInputs()) return;
+      
+          setLoading(true);
+          const message = {
+            content: content.trim(),
+            date: new Date(),
+            sender: user.username,
+            receiver: user2.username
+          };
+      
+          
+          await handleSubmit(message);
+      
+          setLoading(false);
+          
+        };
+  
+        const handleSubmit = async (message) => {
+            try {
+              await addMessage(message);
+              alert("Message send successfully!");
+              setShowComponentConnect(false);
+            } catch (error) {
+              console.error("Error sending message: ", error.message);
+              alert("Failed to send message. Please try again.");
+            }
+          };
+  
+
   return (
     <div style={{ backgroundColor:"gray"}}>
 <button class="btn btn-info close" onClick={close}>X</button>
@@ -17,8 +61,12 @@ function Connect({ user, user2, product, setShowComponentConnect }) {
       className="form-control" 
       placeholder="Write here your message"
       style={{ width: "100%", height: "150px" }}
+      value={content}
+              onChange={(e) => setContent(e.target.value)}
     ></textarea>
-    <button className="btn btn-primary">Send</button>
+    <button type="button" onClick={createMessage} className="btn btn-secondary" disabled={loading}>
+              {loading ? "Submitting..." : "Submit New Message"}
+            </button>
   </div>
 </div>
 </div>

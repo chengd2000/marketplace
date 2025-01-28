@@ -2,12 +2,15 @@ import React, { useState, Suspense } from 'react';
 import './App.css';
 
 const Connect = React.lazy(() => import('./Connect'));
+const NewProduct = React.lazy(() => import('./NewProduct'));
 
 function Market({ user }) {
   const [showComponentConnect, setShowComponentConnect] = useState(false);
   const [responseConnect, setResponseConnect] = useState(null);
   const [responseUser2, setResponseUser2] = useState(null);
   const [responseProduct, setResponseProduct] = useState(null);
+  const [showComponentNewProduct, setShowComponentNewProduct] = useState(false);
+  const [responseNewProduct, setResponseNewProduct] = useState(null);
 
   const goConnect = (id) => {
     setResponseConnect(user); // Save user details to be sent to Connect
@@ -27,7 +30,7 @@ function Market({ user }) {
     const product = {
       name: 'wow',
     };
-    const newproduct = {
+    const anotherproduct = {
       name: 'rgdsfg',
     };
     if (id === 1) {
@@ -36,8 +39,13 @@ function Market({ user }) {
     }
     if (id === 2) {
       setResponseUser2(newuser);
-      setResponseProduct(newproduct);
+      setResponseProduct(anotherproduct);
     }
+  };
+
+  const goNewProduct = () => {
+    setResponseNewProduct(user);
+    setShowComponentNewProduct(true);
   };
 
   return (
@@ -51,7 +59,18 @@ function Market({ user }) {
             setShowComponentConnect={setShowComponentConnect}
           />
         )}
+        {showComponentNewProduct && (
+          <NewProduct
+            user={responseNewProduct}
+            setShowComponentNewProduct={setShowComponentNewProduct}
+          />
+        )}
       </Suspense>
+
+      <button className="btn btn-primary" onClick={goNewProduct}>
+        Add New Product
+      </button>
+
       <div style={{ display: 'flex', gap: '10px' }}>
         <div className="card" style={{ width: '20%' }}>
           <img
@@ -75,6 +94,7 @@ function Market({ user }) {
             </button>
           </div>
         </div>
+
         <div className="card" style={{ width: '20%' }}>
           <img
             src="https://icons.getbootstrap.com/assets/img/icons-hero@2x.png"
@@ -103,3 +123,4 @@ function Market({ user }) {
 }
 
 export default Market;
+
