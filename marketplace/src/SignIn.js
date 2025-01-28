@@ -24,16 +24,18 @@ function SignIn() {
       phone: phone.trim(),
     };
 
-    if(await findUsers({ username: username }) == {}){
-    await handleSubmit(user);
+    const userToCheck = await findUsers({ username: username });
+    console.log("user" + userToCheck)
+    if (Object.keys(userToCheck).length === 0){
+      await handleSubmit(user);
 
-    setResponseNavbar(user);
-    setShowComponentNavbar(true);
-    setLoading(false);
+      setResponseNavbar(user);
+      setShowComponentNavbar(true);
+      setLoading(false);
+    } else {
+      alert("Username already exists");
     }
-    else{
-      alert("username already exists");
-    }
+
   };
 
   const validateInputs = () => {
