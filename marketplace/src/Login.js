@@ -26,10 +26,7 @@ function Login() {
       return;
     }
   
-    console.log("user", userToCheck);
-    console.log("password", password);
-    console.log("check pass", userToCheck.password);
-  
+    
     // אם סיסמאות תואמות
     if (password === userToCheck.password) {
       setResponseNavbar(userToCheck);

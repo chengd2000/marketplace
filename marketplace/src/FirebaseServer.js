@@ -1,5 +1,5 @@
 import { db } from './FirebaseConfig';
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs, or, and } from "firebase/firestore";
 
 export const addUser = async (user) => {
   try {
@@ -59,4 +59,72 @@ export const findUsers = async (searchCriteria) => {
       return {}; // במקרה של שגיאה מחזירים אובייקט ריק
     }
   };
+
+
+
+export const findMessagesByUsers = async (searchCriteria1, searchCriteria2) => {
+  try {
+    let q;
+    if (searchCriteria1.username && searchCriteria2.username) {
+      q = query(
+        collection(db, "messages"),
+        or(
+          and(
+            where("sender", "==", searchCriteria1.username),
+            where("receiver", "==", searchCriteria2.username)
+          ),
+          and(
+            where("sender", "==", searchCriteria2.username),
+            where("receiver", "==", searchCriteria1.username)
+          )
+        )
+      );
+    } else {
+      q = query(collection(db, "messages"));
+    }
+
+    const querySnapshot = await getDocs(q);
+    let messages = [];
+    querySnapshot.forEach((doc) => {
+      messages.push({ id: doc.id, ...doc.data() });
+    });
+
+    messages.sort((a, b) => a.date.seconds - b.date.seconds);
+
+    return messages.length > 0 ? messages : [];
+  } catch (error) {
+    console.error("Error finding messages: ", error.message);
+    return [];
+  }
+};
+
+export const findMessagesByUser = async (searchCriteria) => {
+  try {
+    let q;
+    if (searchCriteria.username) {
+      q = query(
+        collection(db, "messages"),
+        or(
+          where("sender", "==", searchCriteria.username),
+          where("receiver", "==", searchCriteria.username)
+        )
+      );
+    } else {
+      q = query(collection(db, "messages"));
+    }
+
+    const querySnapshot = await getDocs(q);
+    let messages = [];
+    querySnapshot.forEach((doc) => {
+      messages.push({ id: doc.id, ...doc.data() });
+    });
+
+    messages.sort((a, b) => a.date.seconds - b.date.seconds);
+
+    return messages.length > 0 ? messages : [];
+  } catch (error) {
+    console.error("Error finding messages: ", error.message);
+    return [];
+  }
+};
   

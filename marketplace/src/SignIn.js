@@ -25,7 +25,6 @@ function SignIn() {
     };
 
     const userToCheck = await findUsers({ username: username });
-    console.log("user" + userToCheck)
     if (Object.keys(userToCheck).length === 0){
       await handleSubmit(user);
 
