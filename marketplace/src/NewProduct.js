@@ -7,6 +7,7 @@ function NewProduct({ user, setShowComponentNewProduct }) {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [stock, setStock] = useState('');
+    const [category, setCategory] = useState('');
     const [loading, setLoading] = useState(false);
     
     const close = () =>{
@@ -15,7 +16,7 @@ function NewProduct({ user, setShowComponentNewProduct }) {
 
 
     const validateInputs = () => {
-        if (!name || !price || !description || !stock) {
+        if (!name || !price || !description || !stock || !category) {
           alert("All fields are required.");
           return false;
         }
@@ -34,6 +35,7 @@ function NewProduct({ user, setShowComponentNewProduct }) {
           name: name.trim(),
           price: parseFloat(price.trim()),
           description: description.trim(),
+          category: category,
           stock: parseInt(stock.trim()),
           seller: user.username
         };
@@ -87,6 +89,19 @@ function NewProduct({ user, setShowComponentNewProduct }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            <select
+              className="form-control"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="" disabled> choose a category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Home">Home</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Kitchen">Kitchen</option>
+              <option value="Toys">Toys</option>
+            </select>
+
             <input
               className="form-control"
               type="number"

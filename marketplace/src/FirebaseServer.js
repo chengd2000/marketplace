@@ -128,3 +128,27 @@ export const findMessagesByUser = async (searchCriteria) => {
   }
 };
   
+
+
+export const findProducts = async () => {
+    try {
+      let q;
+        q = query(collection(db, "products"));
+  
+      const querySnapshot = await getDocs(q);
+
+      let products = [];
+
+      querySnapshot.forEach((doc) => {
+        products.push({ id: doc.id, ...doc.data() });
+      });
+  
+    //   products.sort((a, b) => a.date.seconds - b.date.seconds);
+  
+      return products.length > 0 ? products : [];
+    } catch (error) {
+      console.error("Error finding products: ", error.message);
+      return [];
+    }
+  };
+    
