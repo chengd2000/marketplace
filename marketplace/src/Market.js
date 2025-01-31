@@ -1,9 +1,10 @@
 import React, { useState, Suspense, useEffect } from 'react';
-import { findProducts, findUsers } from './FirebaseServer';
+import { findProducts, findUsers,deleteProductById } from './FirebaseServer';
 import './App.css';
 
 const Connect = React.lazy(() => import('./Connect'));
 const NewProduct = React.lazy(() => import('./NewProduct'));
+const EditProduct = React.lazy(() => import('./EditProduct'));
 
 function Market({ user }) {
   const [showComponentConnect, setShowComponentConnect] = useState(false);
@@ -12,6 +13,8 @@ function Market({ user }) {
   const [responseProduct, setResponseProduct] = useState(null);
   const [showComponentNewProduct, setShowComponentNewProduct] = useState(false);
   const [responseNewProduct, setResponseNewProduct] = useState(null);
+  const [showComponentEditProduct, setShowComponentEditProduct] = useState(false);
+  const [responseEditProduct, setResponseEditProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -37,27 +40,8 @@ function Market({ user }) {
   
 
   const goConnect = (product) => {
-    setResponseConnect(user); // Save user details to be sent to Connect
-    setShowComponentConnect(true); // Show Connect component
-    // const user2 = {
-    //   username: 'otheruser',
-    //   password: 'otheruserpassword',
-    //   email: 'aa@gmail.com',
-    //   phone: '0974445876',
-    // };
-    // const newuser = {
-    //   username: 'newuser',
-    //   password: 'otheruserpassword',
-    //   email: 'sdfsd@gmail.com',
-    //   phone: '045656757',
-    // };
-    // const product = {
-    //   name: 'wow',
-    // };
-    // const anotherproduct = {
-    //   name: 'rgdsfg',
-    // };
-
+    setResponseConnect(user);
+    setShowComponentConnect(true); 
       let user2 = {};
       for(var i = 0; i < users.length; i++){
         if(users[i].username == product.seller){
@@ -77,6 +61,22 @@ function Market({ user }) {
     setResponseNewProduct(user);
     setShowComponentNewProduct(true);
   };
+    const goEdit=(p)=>{
+      setResponseEditProduct(p);
+      setShowComponentEditProduct(true);
+    };
+    const deleteProduct = async (productID) => {
+      try {
+        console.log("product productID: "+productID);
+        await deleteProductById({productID: productID});
+        alert("Product deleted");
+      } catch (error) {
+        console.error("Error deleting product: ", error.message);
+          alert("Failed to delete product. Please try again.");
+     }
+    };
+  
+
 
 
   return (
@@ -94,6 +94,12 @@ function Market({ user }) {
           <NewProduct
             user={responseNewProduct}
             setShowComponentNewProduct={setShowComponentNewProduct}
+          />
+        )}
+        {showComponentEditProduct && (
+          <EditProduct
+            product={responseEditProduct}
+            setShowComponentEditProduct={setShowComponentEditProduct}
           />
         )}
       </Suspense>
@@ -124,6 +130,17 @@ function Market({ user }) {
               <button onClick={() => goConnect(p)} className="btn btn-link">
                 Connect
               </button>
+              
+              {p.seller === user.username && (
+                <>
+                  <button onClick={() => deleteProduct(p.productID)} className="btn btn-link">
+                      Delete
+                  </button>
+                   <button onClick={() => goEdit(p)} className="btn btn-link">
+                   Edit
+               </button>
+               </>
+                )}
             </div>
           </div>
         ))}

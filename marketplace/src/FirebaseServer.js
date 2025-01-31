@@ -1,5 +1,5 @@
 import { db } from './FirebaseConfig';
-import { collection, addDoc, query, where, getDocs, or, and } from "firebase/firestore";
+import { collection,doc, addDoc, query, where, getDocs, or, and, deleteDoc, updateDoc } from "firebase/firestore";
 
 export const addUser = async (user) => {
   try {
@@ -151,4 +151,104 @@ export const findProducts = async () => {
       return [];
     }
   };
+
+  
+
+  export const deleteProductById = async (searchCriteria) => {
+      try {
+          let q;
+          if (searchCriteria.productID) {
+              q = query(collection(db, "products"), where("productID", "==", searchCriteria.productID));
+          }
+  
+          const querySnapshot = await getDocs(q);
+          console.log("Query Snapshot Size: ", querySnapshot.size);
+  
+          if (querySnapshot.empty) {
+              console.log("No matching documents found");
+              return;
+          }
+  
+          const deletePromises = [];
+  
+          querySnapshot.forEach((docSnapshot) => {
+              console.log("Document Data: ", docSnapshot.data());
+              const productRef = doc(db, "products", docSnapshot.id);
+              deletePromises.push(deleteDoc(productRef));
+              console.log(`Document with ID ${docSnapshot.id} scheduled for deletion`);
+          });
+  
+          await Promise.all(deletePromises);
+          console.log("All documents deleted successfully");
+      } catch (error) {
+          console.error("Error deleting document: ", error);
+      }
+  };
+  export const updateProduct = async (searchCriteria, updateData) => {
+    try {
+        let q;
+        if (searchCriteria.productID) {
+            q = query(collection(db, "products"), where("productID", "==", searchCriteria.productID));
+        }
+
+        const querySnapshot = await getDocs(q);
+        console.log("Query Snapshot Size: ", querySnapshot.size);
+
+        if (querySnapshot.empty) {
+            console.log("No matching documents found");
+            return;
+        }
+
+        const updatePromises = [];
+
+        querySnapshot.forEach((docSnapshot) => {
+            console.log("Document Data: ", docSnapshot.data());
+            const productRef = doc(db, "products", docSnapshot.id);
+            updatePromises.push(updateDoc(productRef, updateData));
+            console.log(`Document with ID ${docSnapshot.id} scheduled for update`);
+        });
+
+        await Promise.all(updatePromises);
+        console.log("All documents updated successfully");
+    } catch (error) {
+        console.error("Error updating document: ", error);
+    }
+};
+
+
+export const updateUser = async (searchCriteria, updateData) => {
+  try {
+      let q;
+      if (searchCriteria.username) {
+          q = query(collection(db, "users"), where("username", "==", searchCriteria.username));
+      }
+
+      const querySnapshot = await getDocs(q);
+      console.log("Query Snapshot Size: ", querySnapshot.size);
+
+      if (querySnapshot.empty) {
+          console.log("No matching documents found");
+          return;
+      }
+
+      const updatePromises = [];
+
+      querySnapshot.forEach((docSnapshot) => {
+          const userRef = doc(db, "users", docSnapshot.id);
+          updatePromises.push(updateDoc(userRef, updateData));
+          console.log(`Document with ID ${docSnapshot.id} scheduled for update`);
+      });
+
+      await Promise.all(updatePromises);
+      console.log("All documents updated successfully");
+  } catch (error) {
+      console.error("Error updating document: ", error);
+  }
+};
+
+
+  
+   
+  
+
     

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { addProduct } from './FirebaseServer';
-
+const { v4: uuidv4 } = require('uuid');
 function NewProduct({ user, setShowComponentNewProduct }) {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -37,9 +37,10 @@ function NewProduct({ user, setShowComponentNewProduct }) {
           description: description.trim(),
           category: category,
           stock: parseInt(stock.trim()),
-          seller: user.username
+          seller: user.username,
+          productID: uuidv4(),
         };
-    
+        console.log(product);
         
         await handleSubmit(product);
     

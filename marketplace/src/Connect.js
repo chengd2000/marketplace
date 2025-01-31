@@ -52,7 +52,7 @@ function Connect({ user, user2, product, setShowComponentConnect }) {
     <div style={{ backgroundColor:"gray"}}>
 <button class="btn btn-info close" onClick={close}>X</button>
     
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh", flexDirection: "column" }}>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh", flexDirection: "column" }}>
     
   <h2> {user.username} Welcome to Connect about {product.name}</h2>
   <div style={{ width: "50%", textAlign: "center" }}>
@@ -67,6 +67,7 @@ function Connect({ user, user2, product, setShowComponentConnect }) {
     <button type="button" onClick={createMessage} className="btn btn-secondary" disabled={loading}>
               {loading ? "Submitting..." : "Submit New Message"}
             </button>
+            <h4>or you can contact {user2.username} by email: {user2.email} or by phone: {user2.phone}</h4>
   </div>
 </div>
 </div>
