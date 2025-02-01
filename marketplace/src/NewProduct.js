@@ -9,14 +9,27 @@ function NewProduct({ user, setShowComponentNewProduct }) {
     const [stock, setStock] = useState('');
     const [category, setCategory] = useState('');
     const [loading, setLoading] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
     
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // Convert image to Base64
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          const base64String = reader.result;
+          setImageUrl(base64String);
+        };
+      }
+    };
     const close = () =>{
       setShowComponentNewProduct(false);
     };
 
 
     const validateInputs = () => {
-        if (!name || !price || !description || !stock || !category) {
+        if (!name || !price || !description || !stock || !category||!imageUrl) {
           alert("All fields are required.");
           return false;
         }
@@ -39,6 +52,7 @@ function NewProduct({ user, setShowComponentNewProduct }) {
           stock: parseInt(stock.trim()),
           seller: user.username,
           productID: uuidv4(),
+          image:imageUrl,
         };
         console.log(product);
         
@@ -76,6 +90,7 @@ function NewProduct({ user, setShowComponentNewProduct }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+            
             <input
               className="form-control"
               type="number"
@@ -110,6 +125,8 @@ function NewProduct({ user, setShowComponentNewProduct }) {
               value={stock}
               onChange={(e) => setStock(e.target.value)}
             />
+            <input className="form-control" type="file" onChange={handleImageUpload} />
+
             <button type="button" onClick={createProduct} className="btn btn-secondary" disabled={loading}>
               {loading ? "Submitting..." : "Submit New Product"}
             </button>

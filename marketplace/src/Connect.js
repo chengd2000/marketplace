@@ -57,6 +57,7 @@ function Connect({ user, user2, product, setShowComponentConnect }) {
   <h2> {user.username} Welcome to Connect about {product.name}</h2>
   <div style={{ width: "50%", textAlign: "center" }}>
     <h3>Send message to {user2.username} about {product.name}</h3>
+    <img src={user2.image} alt="" style={{ width: '50px' }} />
     <textarea 
       className="form-control" 
       placeholder="Write here your message"

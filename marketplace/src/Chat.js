@@ -71,6 +71,17 @@ function Chat({ user, user2, setShowComponentChat }) {
         <h2>{user.username}, your chat with {user2.username}</h2>
         <div style={{ width: "50%", textAlign: "center" }}>
           <h2>Messages between {user.username} and {user2.username}</h2>
+          <div class="row">
+            <div class="col">
+            <img src={user.image} alt="" style={{ width: '50px' }} />
+
+            </div>
+            <div class="col">
+            <img src={user2.image} alt="" style={{ width: '50px' }} />
+
+            </div>
+          </div>
+
           <ul>
             {messages.map(message => (
               <li key={message.id}>

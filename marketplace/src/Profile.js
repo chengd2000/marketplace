@@ -7,6 +7,7 @@ function Profile({ user }) {
        const [oldPass, setOldPass] = useState('');
        const [email, setEmail] = useState(user.email);
        const [phone, setPhone] = useState(user.phone);
+        const [imageUrl, setImageUrl] = useState('');       
        const [loading, setLoading] = useState(false);
        
        const validateInputs = () => {
@@ -28,15 +29,35 @@ function Profile({ user }) {
         }
         return true;
       };
+      const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          // Convert image to Base64
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            const base64String = reader.result;
+            setImageUrl(base64String);
+          };
+        }
+      };
       const editUser = async () => {
         if (!validateInputs()) return;
     
         setLoading(true);
-        const updatedUser = {
+        let updatedUser = {
             password: password.trim(),
             email: email.trim(),
             phone: phone.trim(),
+        };
+        if (imageUrl){
+          updatedUser = {
+            password: password.trim(),
+            email: email.trim(),
+            phone: phone.trim(),
+            image:imageUrl
           };
+        }
         console.log(updatedUser);
         if(await checkPass()){
           await handleSubmit(user.username,updatedUser);
@@ -73,7 +94,7 @@ function Profile({ user }) {
     <div>
             
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-            
+            <img src={user.image} alt="" style={{ width: '200px' }} />
           <div style={{ textAlign: "center" }}>
           <div className="container">
 
@@ -90,7 +111,7 @@ function Profile({ user }) {
                   </div>
           <div className="container">
           <h2> Enter your details you want to change</h2>
-
+                  <input className="form-control" type="file" onChange={handleImageUpload} />
                   <input
                     className="form-control"
                     type="password"

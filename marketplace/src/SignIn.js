@@ -1,7 +1,6 @@
 import React, { useState, Suspense } from 'react';
 import { addUser, findUsers } from './FirebaseServer';
 import './App.css';
-
 const Navbar = React.lazy(() => import('./Navbar'));
 
 function SignIn() {
@@ -11,8 +10,20 @@ function SignIn() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Convert image to Base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setImageUrl(base64String);
+      };
+    }
+  };
   const Sign_in = async () => {
     if (!validateInputs()) return;
 
@@ -22,10 +33,11 @@ function SignIn() {
       password: password.trim(),
       email: email.trim(),
       phone: phone.trim(),
+      image: imageUrl,
     };
 
     const userToCheck = await findUsers({ username: username });
-    if (Object.keys(userToCheck).length === 0){
+    if (Object.keys(userToCheck).length === 0) {
       await handleSubmit(user);
 
       setResponseNavbar(user);
@@ -34,7 +46,6 @@ function SignIn() {
     } else {
       alert("Username already exists");
     }
-
   };
 
   const validateInputs = () => {
@@ -73,6 +84,7 @@ function SignIn() {
         <>
           <h1>Sign In Page</h1>
           <div className="container">
+          <input className="form-control" type="file" onChange={handleImageUpload} />
             <input
               className="form-control"
               type="text"

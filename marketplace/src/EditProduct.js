@@ -8,6 +8,20 @@ function EditProduct({ product, setShowComponentEditProduct }) {
         const [stock, setStock] = useState(product.stock);
         const [category, setCategory] = useState(product.category);
         const [loading, setLoading] = useState(false);
+        const [imageUrl, setImageUrl] = useState('');
+        const handleImageUpload = (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            // Convert image to Base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+              const base64String = reader.result;
+              setImageUrl(base64String);
+            };
+          }
+        };
+
         const close = () =>{
             setShowComponentEditProduct(false);
           };
@@ -26,13 +40,22 @@ function EditProduct({ product, setShowComponentEditProduct }) {
             if (!validateInputs()) return;
         
             setLoading(true);
-            const updatedProduct = {
+            let updatedProduct = {
+              name: name.trim(),
+              price: parseFloat(price),
+              description: description.trim(),
+              category: category,
+              stock: parseInt(stock),
+            };
+            if(imageUrl){
+            updatedProduct = {
                 name: name.trim(),
                 price: parseFloat(price),
                 description: description.trim(),
                 category: category,
                 stock: parseInt(stock),
-              };
+                image:imageUrl
+              };}
             console.log(updatedProduct);
             
             await handleSubmit(product.productID,updatedProduct);
@@ -99,6 +122,8 @@ function EditProduct({ product, setShowComponentEditProduct }) {
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
                   />
+                   <input className="form-control" type="file" onChange={handleImageUpload} />
+
                   <button type="button" onClick={editProduct} className="btn btn-secondary" disabled={loading}>
                     {loading ? "Editing..." : "Edit Product"}
                   </button>

@@ -18,7 +18,6 @@ function Market({ user }) {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
 
-
   useEffect(() => {
       const fetchProducts = async () => {
         const fetchedProducts = await findProducts([]);
@@ -111,11 +110,7 @@ function Market({ user }) {
       <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
         {products.map((p, index) => (
           <div key={index} className="card" style={{ width: "20%" }}>
-            <img
-              src="https://icons.getbootstrap.com/assets/img/icons-hero@2x.png"
-              className="card-img-top"
-              alt="Product"
-            />
+          <img  className="card-img-top" src={p.image} alt="" style={{ width: '200px' }} />
             <div className="card-body">
               <h5 className="card-title">{p.name}</h5>
               <p className="card-text">{p.description}</p>
