@@ -1,6 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import './App.css';
 import { findUsers } from './FirebaseServer';
+const bcrypt = require('bcryptjs');
 
 const Navbar = React.lazy(() => import('./Navbar'));
 
@@ -26,16 +27,16 @@ function Login() {
       return;
     }
   
-    
-    // אם סיסמאות תואמות
-    if (password === userToCheck.password) {
+    // השוואת הסיסמה המוזנת עם הסיסמה המפוענחת ב- Firebase
+    const isPasswordValid = await bcrypt.compare(password, userToCheck.password);
+
+    if (isPasswordValid) {
       setResponseNavbar(userToCheck);
       setShowComponentNavbar(true);
     } else {
       alert("Wrong username/password");
     }
   };
-  
 
   return (
     <div>

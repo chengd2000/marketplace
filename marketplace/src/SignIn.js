@@ -3,6 +3,8 @@ import { addUser, findUsers } from './FirebaseServer';
 import './App.css';
 const Navbar = React.lazy(() => import('./Navbar'));
 
+const bcrypt = require('bcryptjs');
+
 function SignIn() {
   const [showComponentNavbar, setShowComponentNavbar] = useState(false);
   const [responseNavbar, setResponseNavbar] = useState(null);
@@ -12,6 +14,7 @@ function SignIn() {
   const [phone, setPhone] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -24,13 +27,18 @@ function SignIn() {
       };
     }
   };
+
   const Sign_in = async () => {
     if (!validateInputs()) return;
 
     setLoading(true);
+
+    // הצפנת הסיסמה לפני שמירת המידע
+    const hashedPassword = await hashPassword(password.trim());
+
     const user = {
       username: username.trim(),
-      password: password.trim(),
+      password: hashedPassword,  // שמירת הסיסמה המפוענחת
       email: email.trim(),
       phone: phone.trim(),
       image: imageUrl,
@@ -78,13 +86,19 @@ function SignIn() {
     }
   };
 
+  const hashPassword = async (password) => {
+    const saltRounds = 10; // מספר הסיבובים לחיזוק ההצפנה
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+  };
+
   return (
     <div>
       {!showComponentNavbar ? (
         <>
           <h1>Sign In Page</h1>
           <div className="container">
-          <input className="form-control" type="file" onChange={handleImageUpload} />
+            <input className="form-control" type="file" onChange={handleImageUpload} />
             <input
               className="form-control"
               type="text"
