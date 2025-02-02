@@ -103,44 +103,122 @@ function Market({ user }) {
         )}
       </Suspense>
 
-      <button className="btn btn-primary" onClick={goNewProduct}>
-        Add New Product
-      </button>
+      <button
+  className="btn btn-success"
+  onClick={goNewProduct}
+  style={{
+    padding: "10px 20px",
+    backgroundColor: "#28a745",
+    border: "none",
+    borderRadius: "5px",
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: "16px",
+    transition: "background-color 0.3s ease",
+    marginBottom: "20px",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }}
+>
+  Add New Product
+</button>
 
-      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-        {products.map((p, index) => (
-          <div key={index} className="card" style={{ width: "20%" }}>
-          <img  className="card-img-top" src={p.image} alt="" style={{ width: '200px' }} />
-            <div className="card-body">
-              <h5 className="card-title">{p.name}</h5>
-              <p className="card-text">{p.description}</p>
-            </div>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">{p.price}</li>
-              <li className="list-group-item">{p.category}</li>
-              <li className="list-group-item">{p.stock} in stock</li>
-              <li className="list-group-item">Seller: {p.seller}</li>
-            </ul>
-            <div className="card-body">
-              <button onClick={() => goConnect(p)} className="btn btn-link">
-                Connect
-              </button>
-              
-              {p.seller === user.username && (
-                <>
-                  <button onClick={() => deleteProduct(p.productID)} className="btn btn-link">
-                      Delete
-                  </button>
-                   <button onClick={() => goEdit(p)} className="btn btn-link">
-                   Edit
-               </button>
-               </>
-                )}
-            </div>
-          </div>
-        ))}
+<div style={{ display: "flex", gap: "15px", flexWrap: "wrap", justifyContent: "center" }}>
+  {products.map((p, index) => (
+    <div key={index} className="card" style={{
+      width: "calc(20% - 20px)", // Responsive layout: 3 items per row
+      borderRadius: "10px", 
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      overflow: "hidden",
+      transition: "transform 0.3s ease"
+    }}>
+      <img 
+  className="card-img-top" 
+  src={p.image} 
+  alt="" 
+  style={{ 
+    width: "100%", 
+    height: "200px", 
+    objectFit: "contain", 
+    maxHeight: "200px" 
+  }} 
+/>
+
+      <div className="card-body" style={{ padding: "20px", backgroundColor: "#fff" }}>
+        <h5 className="card-title" style={{ fontWeight: "600", fontSize: "18px", color: "#333" }}>{p.name}</h5>
+        <p className="card-text" style={{ color: "#666", fontSize: "14px", marginBottom: "10px" }}>{p.description}</p>
+      </div>
+
+      <ul className="list-group list-group-flush" style={{ borderTop: "1px solid #eee" }}>
+        <li className="list-group-item" style={{ fontSize: "14px", padding: "10px" }}><strong>Price:</strong> {p.price}</li>
+        <li className="list-group-item" style={{ fontSize: "14px", padding: "10px" }}><strong>Category:</strong> {p.category}</li>
+        <li className="list-group-item" style={{ fontSize: "14px", padding: "10px" }}><strong>Stock:</strong> {p.stock} in stock</li>
+        <li className="list-group-item" style={{ fontSize: "14px", padding: "10px" }}><strong>Seller:</strong> {p.seller}</li>
+      </ul>
+
+      <div className="card-body" style={{ padding: "10px", backgroundColor: "#f8f9fa" }}>
+        <button
+          onClick={() => goConnect(p)}
+          className="btn btn-primary"
+          style={{
+            padding: "8px 15px",
+            fontSize: "14px",
+            backgroundColor: "#007bff",
+            border: "none",
+            borderRadius: "5px",
+            color: "#fff",
+            fontWeight: "600",
+            transition: "background-color 0.3s ease"
+          }}
+        >
+          Connect
+        </button>
+
+        {p.seller === user.username && (
+          <>
+            <button
+              onClick={() => deleteProduct(p.productID)}
+              className="btn btn-danger"
+              style={{
+                padding: "8px 15px",
+                fontSize: "14px",
+                backgroundColor: "#dc3545",
+                border: "none",
+                borderRadius: "5px",
+                color: "#fff",
+                fontWeight: "600",
+                marginLeft: "10px",
+                transition: "background-color 0.3s ease"
+              }}
+            >
+              Delete
+            </button>
+
+            <button
+              onClick={() => goEdit(p)}
+              className="btn btn-warning"
+              style={{
+                padding: "8px 15px",
+                fontSize: "14px",
+                backgroundColor: "#ffc107",
+                border: "none",
+                borderRadius: "5px",
+                color: "#fff",
+                fontWeight: "600",
+                marginLeft: "10px",
+                transition: "background-color 0.3s ease"
+              }}
+            >
+              Edit
+            </button>
+          </>
+        )}
       </div>
     </div>
+  ))}
+</div>
+</div>
   );
 }
 

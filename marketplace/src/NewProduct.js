@@ -75,65 +75,102 @@ function NewProduct({ user, setShowComponentNewProduct }) {
 
 
     return (
-      <div style={{ backgroundColor:"gray"}}>
-  <button class="btn btn-info close" onClick={close}>X</button>
-      
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh", flexDirection: "column" }}>
-      
-    <h2> Enter details of product to sell</h2>
-    <div style={{ width: "50%", textAlign: "center" }}>
-    <div className="container">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            
-            <input
-              className="form-control"
-              type="number"
-              placeholder="Price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <select
-              className="form-control"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="" disabled> choose a category</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Home">Home</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Kitchen">Kitchen</option>
-              <option value="Toys">Toys</option>
-            </select>
+<div style={{ backgroundColor: "#f7f7f7", padding: "30px", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+  <button
+    className="btn btn-danger close"
+    onClick={close}
+    style={{ position: "absolute", top: "20px", right: "20px", fontSize: "18px", backgroundColor: "#dc3545", border: "none", borderRadius: "50%" }}
+  >
+    X
+  </button>
 
-            <input
-              className="form-control"
-              type="number"
-              placeholder="How many in stock"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-            />
-            <input className="form-control" type="file" onChange={handleImageUpload} />
+  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px", backgroundColor: "#fff", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+    <h2 style={{ color: "#333", fontWeight: "600", marginBottom: "20px" }}>
+      Enter details of product to sell
+    </h2>
 
-            <button type="button" onClick={createProduct} className="btn btn-secondary" disabled={loading}>
-              {loading ? "Submitting..." : "Submit New Product"}
-            </button>
-          </div>
+    <div style={{ width: "70%", textAlign: "center" }}>
+      <div className="container">
+        <input
+          className="form-control"
+          type="text"
+          placeholder="Product Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ marginBottom: "15px", padding: "10px", fontSize: "16px" }}
+        />
+
+        <input
+          className="form-control"
+          type="number"
+          placeholder="Price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          style={{ marginBottom: "15px", padding: "10px", fontSize: "16px" }}
+        />
+
+        <input
+          className="form-control"
+          type="text"
+          placeholder="Product Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          style={{ marginBottom: "15px", padding: "10px", fontSize: "16px" }}
+        />
+
+        <select
+          className="form-control"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          style={{ marginBottom: "15px", padding: "10px", fontSize: "16px" }}
+        >
+          <option value="" disabled>Choose a category</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Home">Home</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Kitchen">Kitchen</option>
+          <option value="Toys">Toys</option>
+        </select>
+
+        <input
+          className="form-control"
+          type="number"
+          placeholder="How many in stock"
+          value={stock}
+          onChange={(e) => setStock(e.target.value)}
+          style={{ marginBottom: "15px", padding: "10px", fontSize: "16px" }}
+        />
+
+        <input
+          className="form-control"
+          type="file"
+          onChange={handleImageUpload}
+          style={{ marginBottom: "20px", padding: "10px" }}
+        />
+
+        <button
+          type="button"
+          onClick={createProduct}
+          className="btn btn-primary"
+          disabled={loading}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#007bff",
+            border: "none",
+            borderRadius: "5px",
+            color: "#fff",
+            fontWeight: "bold",
+            fontSize: "16px"
+          }}
+        >
+          {loading ? "Submitting..." : "Submit New Product"}
+        </button>
+      </div>
+    </div>
   </div>
-  </div>
-  </div>
+</div>
+
+
       
     );
   }

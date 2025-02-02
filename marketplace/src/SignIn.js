@@ -1,6 +1,8 @@
 import React, { useState, Suspense } from 'react';
 import { addUser, findUsers } from './FirebaseServer';
 import './App.css';
+import defaultImageUrl from './guest-user.png'; 
+
 const Navbar = React.lazy(() => import('./Navbar'));
 
 const bcrypt = require('bcryptjs');
@@ -17,6 +19,7 @@ function SignIn() {
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    // setImageUrl(defaultImageUrl);
     if (file) {
       // Convert image to Base64
       const reader = new FileReader();
@@ -25,8 +28,13 @@ function SignIn() {
         const base64String = reader.result;
         setImageUrl(base64String);
       };
+    // } else {
+    //   // Set default image if no file is selected
+    //   // const defaultImageUrl = './guest-user.png';
+    //   setImageUrl(defaultImageUrl);
     }
   };
+  
 
   const Sign_in = async () => {
     if (!validateInputs()) return;
@@ -38,7 +46,7 @@ function SignIn() {
 
     const user = {
       username: username.trim(),
-      password: hashedPassword,  // שמירת הסיסמה המפוענחת
+      password: hashedPassword,  
       email: email.trim(),
       phone: phone.trim(),
       image: imageUrl,
@@ -57,6 +65,7 @@ function SignIn() {
   };
 
   const validateInputs = () => {
+    
     if (!username || !email || !password || !phone) {
       alert("All fields are required.");
       return false;

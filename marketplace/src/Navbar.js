@@ -34,31 +34,69 @@ function Navbar({ user, setShowComponentNavbar}) {
 
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg bg-dark">
-        <div className="container-fluid">
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-                <button type="button" onClick={goMarket} className="navbar-brand" aria-current="page">
-                  Market
-                </button>
-              </li>
-              <li className="nav-item">
-                <button type="button" onClick={goProfile} className="navbar-brand" aria-current="page">
-                  Profile
-                </button>
-              </li>
-              <li className="nav-item">
-                <button type="button" onClick={goInbox} className="navbar-brand" aria-current="page">
-                  Inbox
-                </button>
-              </li>
-    
-            </ul>
-          </div>
-        </div>
-      </nav>
+<div>
+  <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div className="container-fluid">
+      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav mb-2 mb-lg-0">
+          <li className="nav-item">
+            <button
+              type="button"
+              onClick={goMarket}
+              className="nav-link btn btn-light px-4 py-2 rounded-pill"
+              aria-current="page"
+              style={{
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                color: '#007bff',
+                transition: 'background-color 0.3s, color 0.3s',
+                marginLeft: '15px',
+              }}
+            >
+              Market
+            </button>
+          </li>
+          <li className="nav-item">
+            <button
+              type="button"
+              onClick={goProfile}
+              className="nav-link btn btn-light px-4 py-2 rounded-pill"
+              aria-current="page"
+              style={{
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                color: '#007bff',
+                transition: 'background-color 0.3s, color 0.3s',
+                marginLeft: '15px',
+              }}
+            >
+              Profile
+            </button>
+          </li>
+          <li className="nav-item">
+            <button
+              type="button"
+              onClick={goInbox}
+              className="nav-link btn btn-light px-4 py-2 rounded-pill"
+              aria-current="page"
+              style={{
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                color: '#007bff',
+                transition: 'background-color 0.3s, color 0.3s',
+                marginLeft: '15px',
+              }}
+            >
+              Inbox
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
       {showComponentMarket && responseMarket && (
         <Suspense fallback={<div>Loading...</div>}>
           <Market user={responseMarket} setShowComponentMarket={setShowComponentMarket}/>
